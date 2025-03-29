@@ -12,6 +12,9 @@ responses = {
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
+    if not data or "message" not in data:
+        return jsonify({"error": "Invalid input"}), 400  # 요청이 올바르지 않으면 오류반환
+        
     user_input = data.get("message", "")
     
     # 룰 기반 답변 찾기
