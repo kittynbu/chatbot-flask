@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>룰 기반 챗봇</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #chat-box { width: 50%; margin: auto; border: 1px solid #ddd; padding: 10px; }
+        input { width: 80%; padding: 8px; }
+        button { padding: 8px 15px; margin-left: 5px; }
+    </style>
+</head>
+<body>
+    <h1>룰 기반 챗봇</h1>
+    <div id="chat-box">
+        <p><strong>챗봇:</strong> 안녕하세요! 무엇을 도와드릴까요?</p>
+    </div>
+    <input type="text" id="user-input" placeholder="메시지를 입력하세요">
+    <button onclick="sendMessage()">전송</button>
+
+    <script>
+        function sendMessage() {
+            let userInput = document.getElementById("user-input").value;
+            let chatBox = document.getElementById("chat-box");
+
+            if (userInput.trim() === "") return;
+
+            chatBox.innerHTML += `<p><strong>당신:</strong> ${userInput}</p>`;
+
+            fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                chatBox.innerHTML += `<p><strong>챗봇:</strong> ${data.response}</p>`;
+            });
+
+            document.getElementById("user-input").value = "";
+        }
+    </script>
+</body>
+</html>
