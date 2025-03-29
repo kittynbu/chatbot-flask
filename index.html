@@ -28,7 +28,7 @@
 
             chatBox.innerHTML += `<p><strong>당신:</strong> ${userInput}</p>`;
 
-            fetch("/chat", {
+            fetch("https://mychatbot-8ps0.onrender.com/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: userInput })
